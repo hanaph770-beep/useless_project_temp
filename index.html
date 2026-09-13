@@ -1,1 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Useless AI Friend</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #15152b, #29204a);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px
+        }
+
+        .app {
+            width: 100%;
+            max-width: 700px;
+            background: #ffffff12;
+            border: 1px solid #ffffff20;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px #0008;
+            backdrop-filter: blur(12px)
+        }
+
+        header {
+            padding: 25px;
+            text-align: center;
+            background: #ffffff0d
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #c9c2df
+        }
+
+        .chat {
+            height: 430px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .msg {
+            max-width: 80%;
+            padding: 13px 16px;
+            border-radius: 18px;
+            line-height: 1.4
+        }
+
+        .ai {
+            align-self: flex-start;
+            background: #ffffff15;
+            border-bottom-left-radius: 5px
+        }
+
+        .user {
+            align-self: flex-end;
+            background: #7c4dff;
+            border-bottom-right-radius: 5px
+        }
+
+        .typing {
+            display: none;
+            color: #bbb;
+            font-size: 13px;
+            padding-left: 5px
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding: 16px;
+            background: #0002
+        }
+
+        input {
+            flex: 1;
+            padding: 14px;
+            border: 0;
+            border-radius: 14px;
+            outline: 0;
+            font-size: 15px;
+            background: #fff;
+            color: #222
+        }
+
+        button {
+            border: 0;
+            border-radius: 14px;
+            padding: 0 20px;
+            background: #7c4dff;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer
+        }
+
+        button:hover {
+            background: #936dff
+        }
+
+        .quick {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px 16px;
+            flex-wrap: wrap
+        }
+
+        .quick button {
+            padding: 9px 12px;
+            background: #ffffff15;
+            font-size: 12px
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #ffcc001f;
+            color: #ffd86b;
+            font-size: 12px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <h1>🤖 Useless AI Friend</h1>
+            <p>Your personal AI... who is absolutely no help.</p>
+            <span class="badge">⚠️ 0% useful • 100% confident</span>
+        </header>
+
+        <div class="chat" id="chat">
+            <div class="msg ai">Hey! 👋 I'm your Useless AI Friend.<br><br>Ask me anything. I probably won't help. 😌
+            </div>
+        </div>
+        <div class="typing" id="typing">🤖 AI is thinking very unnecessarily...</div>
+
+        <div class="quick">
+            <button onclick="quick('What should I do today?')">What should I do?</button>
+            <button onclick="quick('I am bored')">I'm bored</button>
+            <button onclick="quick('Tell me something')">Tell me something</button>
+            <button onclick="quick('Help me')">Help me 😭</button>
+        </div>
+
+        <div class="input-area">
+            <input id="input" placeholder="Ask your useless friend..." onkeydown="if(event.key==='Enter')send()">
+            <button onclick="send()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const replies = [
+            "Hmm... interesting. Anyway, have you eaten? 🥔",
+            "I would help, but I'm currently doing nothing. 😎",
+            "That's a very good question. Unfortunately, I have no answer.",
+            "Maybe. Maybe not. Let's never find out.",
+            "Have you tried turning it off and on again? 🔌",
+            "I have analyzed your question for 0.3 seconds. My conclusion: 🤷",
+            "You should probably ask Google. 😂",
+            "Excellent idea! I have absolutely no idea how to do it.",
+            "Don't worry. I am here for emotional support... and nothing else. 🫂",
+            "My professional opinion: just take a nap. 😴",
+            "I could explain it, but that would make me useful. Sorry.",
+            "Loading solution... 1%... 1%... still 1%.",
+            "That's above my uselessness level. Try again later. 🤖"
+        ];
+
+        function add(text, type) {
+            const d = document.createElement('div'); d.className = 'msg ' + type; d.innerHTML = text;
+            document.getElementById('chat').appendChild(d);
+            const chat = document.getElementById('chat'); chat.scrollTop = chat.scrollHeight;
+        }
+        function send() {
+            const input = document.getElementById('input'), text = input.value.trim();
+            if (!text) return;
+            add(text.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
+            input.value = '';
+            document.getElementById('typing').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('typing').style.display = 'none';
+                add(replies[Math.floor(Math.random() * replies.length)], 'ai');
+            }, 700);
+        }
+        function quick(text) { document.getElementById('input').value = text; send(); }
+    </script>
+</body>
+
+</html>
